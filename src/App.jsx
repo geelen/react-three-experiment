@@ -19,17 +19,17 @@ function MainSphere({ material }) {
   const main = useRef()
   // main sphere rotates following the mouse position
   useFrame(({ clock, mouse }) => {
-    main.current.rotation.z = clock.getElapsedTime()
-    main.current.rotation.y = THREE.MathUtils.lerp(
-      main.current.rotation.y,
-      mouse.x * Math.PI,
-      0.1
-    )
-    main.current.rotation.x = THREE.MathUtils.lerp(
-      main.current.rotation.x,
-      mouse.y * Math.PI,
-      0.1
-    )
+    //main.current.rotation.z = clock.getElapsedTime()
+    //main.current.rotation.y = THREE.MathUtils.lerp(
+    //  main.current.rotation.y,
+    //  mouse.x * Math.PI,
+    //  0.1
+    //)
+    //main.current.rotation.x = THREE.MathUtils.lerp(
+    //  main.current.rotation.x,
+    //  mouse.y * Math.PI,
+    //  0.1
+    //)
   })
   return (
     <Icosahedron
@@ -58,13 +58,13 @@ function Instances({ material }) {
   // smaller spheres movement
   useFrame(() => {
     // animate each sphere in the array
-    sphereRefs.forEach((el) => {
-      el.position.y += 0.02
-      if (el.position.y > 19) el.position.y = -18
-      el.rotation.x += 0.06
-      el.rotation.y += 0.06
-      el.rotation.z += 0.02
-    })
+    //sphereRefs.forEach((el) => {
+    //  el.position.y += 0.02
+    //  if (el.position.y > 19) el.position.y = -18
+    //  el.rotation.x += 0.06
+    //  el.rotation.y += 0.06
+    //  el.rotation.z += 0.02
+    //})
   })
   return (
     <>
@@ -97,14 +97,15 @@ function Scene() {
         ref={set}
         envMap={envMap}
         bumpMap={bumpMap}
-        color={'#010101'}
+        color={'orange'}
         roughness={0.1}
         metalness={1}
-        bumpScale={0.005}
+        bumpScale={0.05}
         clearcoat={1}
         clearcoatRoughness={1}
         radius={1}
-        distort={0.4}
+        distort={0.8}
+        speed={0.1}
       />
       {material && <Instances material={material} />}
     </>
@@ -132,7 +133,7 @@ export default function App() {
         <DepthOfField
           focusDistance={0}
           focalLength={0.02}
-          bokehScale={2}
+          bokehScale={3}
           height={480}
         />
         <Bloom
