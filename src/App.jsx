@@ -14,23 +14,24 @@ import { Icosahedron } from '@react-three/drei/core/shapes'
 import { MeshDistortMaterial } from '@react-three/drei/core/MeshDistortMaterial'
 import { useTexture } from '@react-three/drei/core/useTexture'
 import { useCubeTexture } from '@react-three/drei/core/useCubeTexture'
+import { Physics, useBox } from '@react-three/cannon'
 
 function MainSphere({ material }) {
   const main = useRef()
   // main sphere rotates following the mouse position
-  useFrame(({ clock, mouse }) => {
-    //main.current.rotation.z = clock.getElapsedTime()
-    //main.current.rotation.y = THREE.MathUtils.lerp(
-    //  main.current.rotation.y,
-    //  mouse.x * Math.PI,
-    //  0.1
-    //)
-    //main.current.rotation.x = THREE.MathUtils.lerp(
-    //  main.current.rotation.x,
-    //  mouse.y * Math.PI,
-    //  0.1
-    //)
-  })
+  //useFrame(({ clock, mouse }) => {
+  //  //main.current.rotation.z = clock.getElapsedTime()
+  //  //main.current.rotation.y = THREE.MathUtils.lerp(
+  //  //  main.current.rotation.y,
+  //  //  mouse.x * Math.PI,
+  //  //  0.1
+  //  //)
+  //  //main.current.rotation.x = THREE.MathUtils.lerp(
+  //  //  main.current.rotation.x,
+  //  //  mouse.y * Math.PI,
+  //  //  0.1
+  //  //)
+  //})
   return (
     <Icosahedron
       args={[1, 4]}
@@ -46,16 +47,18 @@ function Instances({ material }) {
   const [sphereRefs] = useState(() => [])
   // we use this array to initialize the background spheres
   const initialPositions = [
-    [-4, 20, -12],
-    [-10, 12, -4],
-    [-11, -12, -23],
-    [-16, -6, -10],
-    [12, -2, -3],
+    //[-4, 20, -12],
+    //[-10, 12, -4],
+    //[-11, -12, -23],
+    //[-16, -6, -10],
+    //[12, -2, -3],
     [13, 4, -12],
-    [14, -2, -23],
-    [8, 10, -20],
+    //[14, -2, -23],
+    //[8, 10, -20],
   ]
-  // smaller spheres movement
+
+  const [ref, api] = useBox(() => ({ mass: 1, position: initialPositions[0] }))
+
   useFrame(() => {
     // animate each sphere in the array
     //sphereRefs.forEach((el) => {
@@ -75,7 +78,7 @@ function Instances({ material }) {
           position={[pos[0], pos[1], pos[2]]}
           material={material}
           key={i}
-          ref={(ref) => (sphereRefs[i] = ref)}
+          ref={ref}
         />
       ))}
     </>
@@ -92,7 +95,7 @@ function Scene() {
   const [material, set] = useState()
 
   return (
-    <>
+    <Physics>
       <MeshDistortMaterial
         ref={set}
         envMap={envMap}
@@ -108,7 +111,7 @@ function Scene() {
         speed={0.1}
       />
       {material && <Instances material={material} />}
-    </>
+    </Physics>
   )
 }
 
